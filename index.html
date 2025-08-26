@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargar PDF para n8n</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 30px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .file-input-wrapper:hover {
+            border-color: #0056b3;
+            background-color: #f0f8ff;
+        }
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .file-input-label {
+            color: #007bff;
+            font-weight: bold;
+        }
+        #file-name {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cargar Archivo PDF</h1>
+        <form id="upload-form" action="http://localhost:5678/webhook/c9fc6cf3-12c1-403f-968b-c5ef1c3f0b50" method="POST" enctype="multipart/form-data">
+            <div class="file-input-wrapper">
+                <label for="pdfFile" class="file-input-label">Selecciona un archivo PDF</label>
+                <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
+            </div>
+            <div id="file-name">Ningún archivo seleccionado</div>
+            <button type="submit" id="submit-button" disabled>Cargar</button>
+        </form>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('pdfFile');
+        const fileNameDisplay = document.getElementById('file-name');
+        const submitButton = document.getElementById('submit-button');
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+                submitButton.disabled = false;
+            } else {
+                fileNameDisplay.textContent = 'Ningún archivo seleccionado';
+                submitButton.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
